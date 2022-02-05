@@ -1,4 +1,6 @@
 from unittest import mock
+
+from cv2 import sepFilter2D
 from crud import CRUD
 import unittest
 from unittest.mock import patch
@@ -40,6 +42,11 @@ class TestCRUD(unittest.TestCase):
                 "Trust": 90,
                 "List_of_members": ["alex@gmail.com"],
             },
+        }
+
+        self.users_lookup = {
+            'alex@gmail.com': '1',
+            'mark@mail.com': '2'
         }
 
 
@@ -167,9 +174,7 @@ class TestCRUD(unittest.TestCase):
         mock_read_groups_file.return_value = self.users_data
         crud = CRUD()
         invalid_id = 3
-        crud.get_groups_data(invalid_id, "name")
-
-        pass
+        self.assertEqual(crud.get_groups_data(invalid_id, "name"), False)
 
     @patch("crud.CRUD.read_groups_file")
     def test_get_group_data_Returns_false_for_invalid_field(
@@ -178,7 +183,10 @@ class TestCRUD(unittest.TestCase):
         """
         Similaire au test_get_user_data_Returns_false_for_invalid_field mais pour un groupe
         """
-        pass
+        mock_read_groups_file.return_value = self.users_data
+        crud = CRUD()
+        invalid_field = "test"
+        self.assertEqual(crud.get_groups_data(2, invalid_field), False)
 
     @patch("crud.CRUD.read_groups_file")
     def test_get_group_data_Returns_correct_value_if_field_and_id_are_valid(
@@ -187,7 +195,10 @@ class TestCRUD(unittest.TestCase):
         """
         Similaire au test_get_user_data_Returns_correct_value_if_field_and_id_are_valid mais pour un groupe
         """
-        pass
+        mock_read_groups_file.return_value = self.groups_data
+        crud = CRUD()
+        expected_value = self.groups_data["2"]["name"]
+        self.assertEqual(crud.get_groups_data(2, 'name'), expected_value)
 
     @patch("crud.CRUD.read_users_file")
     def test_get_user_id_Returns_false_for_invalid_user_name(
@@ -197,7 +208,7 @@ class TestCRUD(unittest.TestCase):
 
     @patch("crud.CRUD.read_users_file")
     def test_get_user_id_Returns_id_for_valid_user_name(self, mock_read_users_file):
-        pass
+        mock_read_users_file.return_value = self.users_
 
     @patch("crud.CRUD.read_groups_file")
     def test_get_group_id_Returns_false_for_invalid_group_name(

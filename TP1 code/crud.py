@@ -416,8 +416,7 @@ class CRUD:
             del self.users_lookup[user_name]
 
         except RuntimeError:
-            return False
-
+            return True
         return self.modify_users_file(self.users_data)
 
     def remove_user_group(self, user_id, group_name):

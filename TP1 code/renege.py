@@ -177,3 +177,22 @@ class RENEGE:
     ###########################################
     #             CUSTOM FUNCTION             #
     ###########################################
+    def calculate_trust(self, user_id, trust_average):
+        spam_n = self.crud.get_user_data(user_id, "SpamN")
+        ham_n  = self.crud.get_user_data(user_id, "HamN")
+        last_message_time = self.crud.get_user_data(user_id, "Date_of_last_seen_message")
+        first_message_time = self.crud.get_user_data(user_id, "Date_of_first_seen_message")
+
+        trust1 = (last_message_time * ham_n)/(first_message_time * (ham_n + spam_n))
+        trust2 = trust_average
+        trust = (0.6 * trust1 + 0.4 * trust2)/2
+        if(trust2 < 60):
+            trust = trust2
+        if(trust1 > 100):
+            trust = 100
+        if(trust >= 0 and trust <= 100):
+            return trust
+        else: 
+            return False
+        
+

@@ -452,6 +452,9 @@ class TestCRUD(unittest.TestCase):
     def test_update_users_Returns_False_when_new_name_is_invalid(
         self, mock_read_users_file, mock_modify_users_file
     ):
+        """Description: Test qui permet de verifier que la methode update_users
+        retourn un false lorsqu'un nom passer n'a pas le bon format
+        """
         mock_read_users_file.return_value = self.users_data
         mock_modify_users_file.return_value = True
         crud = CRUD()
@@ -464,6 +467,10 @@ class TestCRUD(unittest.TestCase):
     def test_update_users_Returns_False_when_new_last_date_is_invalid(
         self, mock_read_users_file, mock_modify_users_file
     ):
+        """Description: Test qui permet de verifier que la methode update_users
+       retourne un false si la date est plus recente que la derniere lors d'un
+       changement de la date la plus recente
+        """
         mock_read_users_file.return_value = self.users_data
         mock_modify_users_file.return_value = True
         crud = CRUD()
@@ -476,6 +483,10 @@ class TestCRUD(unittest.TestCase):
     def test_update_users_Returns_False_when_new_first_date_is_invalid(
         self, mock_read_users_file, mock_modify_users_file
     ):
+        """Description: Test qui permet de verifier que la methode update_users
+       retourne un false si la date est plus ancienne que la premiere lors d'un
+       changement de la premiere date
+        """
         mock_read_users_file.return_value = self.users_data
         mock_modify_users_file.return_value = True
         crud = CRUD()
@@ -487,7 +498,10 @@ class TestCRUD(unittest.TestCase):
     @patch("crud.CRUD.read_users_file")
     def test_update_users_Returns_False_when_Trust_is_superior_to_100(
         self, mock_read_users_file, mock_modify_users_file
-    ):
+    ): 
+        """Description: Test qui permet de verifier si update users retourn un false
+        si la valeur du Trust depasse 100
+        """
         mock_read_users_file.return_value = self.users_data
         mock_modify_users_file.return_value = True
         crud = CRUD()
@@ -500,6 +514,9 @@ class TestCRUD(unittest.TestCase):
     def test_update_users_Returns_False_when_Trust_is_inferior_to_0(
         self, mock_read_users_file, mock_modify_users_file
     ):
+        """Description: Test qui permet de verifier si update users retourn un false
+        si la valeur du Trust est inferieur a 0
+        """
         mock_read_users_file.return_value = self.users_data
         mock_modify_users_file.return_value = True
         crud = CRUD()
@@ -512,6 +529,9 @@ class TestCRUD(unittest.TestCase):
     def test_update_users_Returns_False_when_SpamN_is_inferior_to_0(
         self, mock_read_users_file, mock_modify_users_file
     ):
+        """Description: Test qui permet de verifier si update users retourn un false
+        si la valeur du SpamN est inferieur a 0
+        """
         mock_read_users_file.return_value = self.users_data
         mock_modify_users_file.return_value = True
         crud = CRUD()
@@ -524,6 +544,9 @@ class TestCRUD(unittest.TestCase):
     def test_update_users_Returns_False_when_HamN_is_inferior_to_0(
         self, mock_read_users_file, mock_modify_users_file
     ):
+        """Description: Test qui permet de verifier si update users retourn un false
+        si la valeur du HamN est inferieur a 0
+        """
         mock_read_users_file.return_value = self.users_data
         mock_modify_users_file.return_value = True
         crud = CRUD()
@@ -536,17 +559,24 @@ class TestCRUD(unittest.TestCase):
     def test_update_groups_Returns_False_when_new_name_lenght_is_inferior_to_1(
         self, mock_read_groups_file, mock_modify_groups_file
     ):
+        """Description: Test qui permet de verifier si update_groups retourn un false
+        si la longueur du nom modifier est inferieur a 1
+        """
         mock_read_groups_file.return_value = self.groups_data
         mock_modify_groups_file.return_value = True 
         crud = CRUD()
         invalid_name = ""
         value = crud.update_groups(1, "name", invalid_name)
+        self.assertEqual(value, False)
 
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_groups_file")    
     def test_update_groups_Returns_False_when_new_name_lenght_is_supperior_to_64(
         self, mock_read_groups_file, mock_modify_groups_file
     ):
+        """Description: Test qui permet de verifier si update_groups retourn un false
+        si la longueur du nom modifier est superieur a 64
+        """
         mock_read_groups_file.return_value = self.groups_data
         mock_modify_groups_file.return_value = True 
         crud = CRUD()
@@ -555,17 +585,22 @@ class TestCRUD(unittest.TestCase):
         for i in range(number_supperior_to_64):
             invalid_name += "a"
         value = crud.update_groups(1, "name", invalid_name)
+        self.assertEqual(value, False)
 
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_groups_file")    
     def test_update_groups_Returns_False_when_Trust_is_inferior_to_1(
         self, mock_read_groups_file, mock_modify_groups_file
     ):
+        """Description: Test qui permet de verifier si update_groups retourn un false
+        si la valeur du Trust modifier est inferieur a 1
+        """
         mock_read_groups_file.return_value = self.groups_data
         mock_modify_groups_file.return_value = True 
         crud = CRUD()
         invalid_trust = -1
         value = crud.update_groups(1, "Trust", invalid_trust)
+        self.assertEqual(value, False)
 
     @patch("crud.CRUD.read_users_file")    
     @patch("crud.CRUD.modify_groups_file")
@@ -573,6 +608,9 @@ class TestCRUD(unittest.TestCase):
     def test_add_new_user_Returns_False_if_email_format_is_wrong(
         self, mock_modify_users_file, mock_modify_groups_file, mock_read_users_file
     ):
+        """Description: Test qui permet de verifier si add_new_user retourn un false
+        si le format du email passer n'est pas bon
+        """
         mock_modify_groups_file.return_value = True 
         mock_modify_users_file.return_value = True
         mock_read_users_file.return_value = self.users_data
@@ -587,6 +625,9 @@ class TestCRUD(unittest.TestCase):
     def test_add_new_user_Returns_False_if_email_already_exist(
         self, mock_modify_users_file, mock_modify_groups_file, mock_read_users_file
     ):
+        """Description: Test qui permet de verifier si add_new_user retourn un false
+        si le format du email passer exist deja
+        """
         mock_modify_groups_file.return_value = True 
         mock_modify_users_file.return_value = True
         mock_read_users_file.return_value = self.users_data

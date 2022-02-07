@@ -77,15 +77,8 @@ class TestVocabularyCreator(unittest.TestCase):
     def test_create_vocab_spam_Returns_vocabulary_when_not_spam(
         self, mock_write_data_to_vocab_file, mock_clean_text, mock_load_dict
     ):
-        """Description: Tester qu'un vocabulaire avec les probabilités calculées
-        correctement va être retourné. Il faut mocker les fonctions "load dict"
-         (utiliser self.mails comme une simulation de valeur de retour),"clean text"
-         (cette fonction va être appelée quelques fois, pour chaque appel on
-         va simuler une valeur de retour differente, pour cela il faut utiliser
-         side_effect (voir l'exemple dans l'énonce)) et
-         "write_data_to_vocab_file" qui va simuler "return True" au lieu
-         d'écrire au fichier "vocabulary.json".
-         if faut utiliser self.assertEqual(appel_a_create_vocab(), self.vocab_expected)
+        """Description: Tester que le vocabulaire calculer ai les bonnes valeurs 
+        de probabilités lorsqu'il ne s'agit pas d'un spam
         """
         mock_load_dict.return_value = {
             "dataset":[
